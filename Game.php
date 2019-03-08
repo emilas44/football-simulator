@@ -305,22 +305,22 @@ class Game
     {
         global $team1, $team2, $comment;
 
-        $comment == false ? '' : print("It's draw! The winner will be decided with - Sudden death<br>");
+        $comment ? print("It's draw! The winner will be decided with - Sudden death<br>") : '';
         while ($pk1 == $pk2) {
             $sdr1 = rand(1, 10);
             $sdr2 = rand(1, 10);
             if ($sdr1 > 5 && $sdr2 > 5) {
-                $comment == false ? '' : print($team1->name . " has scored!<br>");
-                $comment == false ? '' : print($team2->name . " has scored!<br>");
+                $comment ? print($team1->name . " has scored!<br>") : '';
+                $comment ? print($team2->name . " has scored!<br>") : '';
                 $pk1 += 1;
                 $pk2 += 1;
             } else if ($sdr1 >= 5 && $sdr2 <= 5) {
-                $comment == false ? '' : print($team1->name . " has scored!<br>");
-                $comment == false ? '' : print($team2->name . " missed :(<br>");
+                $comment ? print($team1->name . " has scored!<br>") : '';
+                $comment ? print($team2->name . " missed :(<br>") : '';
                 $pk1 += 1;
             } else if ($sdr1 <= 5 && $sdr2 >= 0.5) {
-                $comment == false ? '' : print($team1->name . " missed :(<br>");
-                $comment == false ? '' : print($team2->name . " has scored!<br>");
+                $comment ? print($team1->name . " missed :(<br>") : '';
+                $comment ? print($team2->name . " has scored!<br>") : '';
                 $pk2 += 1;
             }
         } // end of sudden death
@@ -330,6 +330,5 @@ class Game
 
         // printout final score after Sudden death
         $comment == false ? '' : print("Final score after Sudden death: " . $team1->name . " " . $t1goal . "(" . $team1->PK . ")" . ":" . "(" . $team2->PK . ")" . $t2goal . " " . $team2->name . "<br>");
-
     }
 }
