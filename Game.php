@@ -2,89 +2,12 @@
 
 class Game
 {
-    public static function whoHasBall($team1, $team2) {
-        global $comment;
-
-        // deciding who has the ball first
-        $coinToss = rand(1, 2);
-        if ($coinToss == 1) {
-            $comment == false ? '' : print($team1->name . " has the ball<br>");
-            return [
-                'team1HasBall' => true,
-                'team2HasBall' => false,
-                'ballPosition' => 5
-
-            ];
-        } else {
-            $comment == false ? '' : print($team2->name . " has the ball<br>");
-            return [
-                'team1HasBall' => false,
-                'team2HasBall' => true,
-                'ballPosition' => -5
-            ];
-        } // end of if coin toss
-    }
-
-    public static function team1Event($r1, $t1pow, $t1goal, $ballPosition, $team1HasBall, $team2HasBall)
-    {
-        if ($r1 < $t1pow) {
-
-            self::comments($ballPosition, 'if');
-
-            $scoredGoal = [];
-            if ($ballPosition == 1) {
-                $scoredGoal['t1goal'] = $t1goal + 1;
-                $team1HasBall = false;
-                $team2HasBall = true;
-            }
-
-            return array_merge([
-                'team1HasBall'  => $team1HasBall,
-                'team2HasBall'  => $team2HasBall,
-                'ballPosition'  => $ballPosition == 1 ? -10 : ($ballPosition - 1),
-            ], $scoredGoal);
-        } else {
-
-            self::comments($ballPosition, 'else');
-
-            return [
-                'team1HasBall'  => !$team1HasBall,
-                'team2HasBall'  => !$team2HasBall,
-                'ballPosition'  => -10,
-            ];
-        }
-    }
-
-    public static function team2Event($r2, $t2pow, $t2goal, $ballPosition, $team1HasBall, $team2HasBall)
-    {
-        if ($r2 < $t2pow) {
-
-            self::comments($ballPosition, 'if');
-
-            $scoredGoal = [];
-            if ($ballPosition == -1) {
-                $scoredGoal['t2goal'] = $t2goal + 1;
-                $team1HasBall = true;
-                $team2HasBall = false;
-            }
-
-            return array_merge([
-                'team1HasBall'  => $team1HasBall,
-                'team2HasBall'  => $team2HasBall,
-                'ballPosition'  => $ballPosition == -1 ? 10 : ($ballPosition + 1),
-            ], $scoredGoal);
-        } else {
-
-            self::comments($ballPosition, 'else');
-
-            return [
-                'team1HasBall'  => !$team1HasBall,
-                'team2HasBall'  => !$team2HasBall,
-                'ballPosition'  => 10,
-            ];
-        }
-    }
-
+    /**
+     * THIS IS THE MAIN FUNCTION THAT SIMULATES THE GAME
+     *
+     * @param $team1
+     * @param $team2
+     */
     public static function simulate($team1, $team2)
     {
         global $PK, $comment;
@@ -143,7 +66,6 @@ class Game
             } // end of team2 has the ball
         } // end of 90 iteration
 
-
         $team1->GF += $t1goal;                    // adding scored goals and recieved goals for both teams
         $team2->GF += $t2goal;
         $team1->GA += $t2goal;
@@ -170,6 +92,124 @@ class Game
         }
     } // end of function
 
+    /**
+     * Decides which team has the ball first
+     *
+     * @param $team1
+     * @param $team2
+     * @return array
+     */
+    public static function whoHasBall($team1, $team2) {
+        global $comment;
+
+        // deciding who has the ball first
+        $coinToss = rand(1, 2);
+        if ($coinToss == 1) {
+            $comment == false ? '' : print($team1->name . " has the ball<br>");
+            return [
+                'team1HasBall' => true,
+                'team2HasBall' => false,
+                'ballPosition' => 5
+
+            ];
+        } else {
+            $comment == false ? '' : print($team2->name . " has the ball<br>");
+            return [
+                'team1HasBall' => false,
+                'team2HasBall' => true,
+                'ballPosition' => -5
+            ];
+        } // end of if coin toss
+    }
+
+    /**
+     * Team1 event while it has the ball
+     *
+     * @param $r1
+     * @param $t1pow
+     * @param $t1goal
+     * @param $ballPosition
+     * @param $team1HasBall
+     * @param $team2HasBall
+     * @return array
+     */
+    public static function team1Event($r1, $t1pow, $t1goal, $ballPosition, $team1HasBall, $team2HasBall)
+    {
+        if ($r1 < $t1pow) {
+
+            self::comments($ballPosition, 'if');
+
+            $scoredGoal = [];
+            if ($ballPosition == 1) {
+                $scoredGoal['t1goal'] = $t1goal + 1;
+                $team1HasBall = false;
+                $team2HasBall = true;
+            }
+
+            return array_merge([
+                'team1HasBall'  => $team1HasBall,
+                'team2HasBall'  => $team2HasBall,
+                'ballPosition'  => $ballPosition == 1 ? -10 : ($ballPosition - 1),
+            ], $scoredGoal);
+        } else {
+
+            self::comments($ballPosition, 'else');
+
+            return [
+                'team1HasBall'  => !$team1HasBall,
+                'team2HasBall'  => !$team2HasBall,
+                'ballPosition'  => -10,
+            ];
+        }
+    }
+
+    /**
+     * Team2 event while it has the ball
+     *
+     * @param $r2
+     * @param $t2pow
+     * @param $t2goal
+     * @param $ballPosition
+     * @param $team1HasBall
+     * @param $team2HasBall
+     * @return array
+     */
+    public static function team2Event($r2, $t2pow, $t2goal, $ballPosition, $team1HasBall, $team2HasBall)
+    {
+        if ($r2 < $t2pow) {
+
+            self::comments($ballPosition, 'if');
+
+            $scoredGoal = [];
+            if ($ballPosition == -1) {
+                $scoredGoal['t2goal'] = $t2goal + 1;
+                $team1HasBall = true;
+                $team2HasBall = false;
+            }
+
+            return array_merge([
+                'team1HasBall'  => $team1HasBall,
+                'team2HasBall'  => $team2HasBall,
+                'ballPosition'  => $ballPosition == -1 ? 10 : ($ballPosition + 1),
+            ], $scoredGoal);
+        } else {
+
+            self::comments($ballPosition, 'else');
+
+            return [
+                'team1HasBall'  => !$team1HasBall,
+                'team2HasBall'  => !$team2HasBall,
+                'ballPosition'  => 10,
+            ];
+        }
+    }
+
+    /**
+     * Prints comment dependable on ball position and Team event
+     *
+     * @param $ballPosition
+     * @param $ifElse
+     */
     public static function comments($ballPosition, $ifElse) {
 
         global $team1, $team2, $comment;
@@ -260,6 +300,13 @@ class Game
         echo $comments[$ballPosition][$ifElse];
     }
 
+    /**
+     * If simulate() function has $PK = true then
+     *  the winner will be decided on PK shootout
+     *
+     * @param $t1goal
+     * @param $t2goal
+     */
     public static function penaltyKicksShootout($t1goal, $t2goal)
     {
         global $team1, $team2, $comment;
@@ -284,6 +331,14 @@ class Game
         } // end of penalty shoot-out
     }
 
+    /**
+     * Called for single team penalty kicks
+     * returns number of scored goals
+     *
+     * @param $pk
+     * @param $team
+     * @return mixed
+     */
     public static function teamShooting($pk, $team)
     {
         global $comment;
@@ -301,6 +356,15 @@ class Game
         return $pk;
     }
 
+    /**
+     * If score is draw after penalties
+     * the winner will be decided with sudden death
+     *
+     * @param $t1goal
+     * @param $t2goal
+     * @param $pk1
+     * @param $pk2
+     */
     public static function suddenDeath($t1goal, $t2goal, $pk1, $pk2)
     {
         global $team1, $team2, $comment;

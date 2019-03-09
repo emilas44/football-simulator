@@ -6,8 +6,8 @@ require_once('Game.php');
 
 
 
-$team1 = new Team($teams[3]);
-$team2 = new Team($teams[8]);
+$team1 = new Team($teams['A1']);
+$team2 = new Team($teams['A2']);
 
 $comment = true;
 $PK = true;
