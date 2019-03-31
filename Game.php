@@ -10,34 +10,32 @@ class Game
      */
     public static function simulate($team1, $team2)
     {
+        if (!$team1 || !$team2) {
+            die('No teams selected');
+        }
+
         global $PK, $comment;
 
         // declaring variables
-        $t1pow = $team1->overall - 17;              // 17 is a coefficient that gives (for football) normal result
-        $t2pow = $team2->overall - 17;
+        $t1pow = $team1->overall - 10;              // 17 is a coefficient that gives (for football) normal result
+        $t2pow = $team2->overall - 10;
         $t1goal = 0;
         $t2goal = 0;
         $team1HasBall = null;
         $team2HasBall = null;
         $ballPosition = null;
 
-
         foreach (self::whoHasBall($team1, $team2) as $key => $value) {
             $$key = $value;
         }
-
-        //self::events($team1HasBall, $team2HasBall, $ballPosition, $comment);
 
         ///////////////////////////////// SIMULATING GAME /////////////////////////////////////
         for ($i = 1; $i <= 90; $i++) {
             echo $comment ? $i.'<br>' : '';
             //******************************* While team1 has the ball ************************************//
             while ($team1HasBall) {
-                $r1 = rand(1, 100);
-
                 foreach (
                     self::team1Event(
-                        $r1,
                         $t1pow,
                         $t1goal,
                         $ballPosition,
@@ -50,11 +48,8 @@ class Game
 
             //******************************* While team2 has the ball ************************************//
             while ($team2HasBall) {
-                $r2 = rand(1, 100);
-
                 foreach (
                     self::team2Event(
-                        $r2,
                         $t2pow,
                         $t1goal,
                         $ballPosition,
@@ -70,21 +65,39 @@ class Game
         $team2->GF += $t2goal;
         $team1->GA += $t2goal;
         $team2->GA += $t1goal;
+        $team1->GD += $t1goal - $t2goal;
+        $team2->GD += $t2goal - $t1goal;
 
         if ($t1goal > $t2goal) {                  // adding points if $team1 wins
             $team1->Pts += 3;
+            $team2->Pts += 0;
             $team1->W += 1;
+            $team2->W += 0;
+            $team1->L += 0;
             $team2->L += 1;
+            $team1->D += 0;
+            $team2->D += 0;
         } else if ($t1goal < $t2goal) {           // adding points if $team2 wins
+            $team1->Pts += 0;
             $team2->Pts += 3;
+            $team1->W += 0;
             $team2->W += 1;
             $team1->L += 1;
+            $team2->L += 0;
+            $team1->D += 0;
+            $team2->D += 0;
         } else {                                  // adding points if it's draw
-            $team1->D += 1;
-            $team2->D += 1;
             $team1->Pts += 1;
             $team2->Pts += 1;
+            $team1->W += 0;
+            $team2->W += 0;
+            $team1->L += 0;
+            $team2->L += 0;
+            $team1->D += 1;
+            $team2->D += 1;
         }
+
+        echo '<tr><td>' .$team1->name. '</td><td>' .$t1goal. '</td><td>:</td><td>' .$t2goal. '</td><td>&nbsp;&nbsp;&nbsp;&nbsp;' .$team2->name. '</td></tr>';
 
         if ($PK) {
             // if game ends with draw, winner is decided with penalty shoot-out
@@ -125,7 +138,6 @@ class Game
     /**
      * Team1 event while it has the ball
      *
-     * @param $r1
      * @param $t1pow
      * @param $t1goal
      * @param $ballPosition
@@ -133,8 +145,10 @@ class Game
      * @param $team2HasBall
      * @return array
      */
-    public static function team1Event($r1, $t1pow, $t1goal, $ballPosition, $team1HasBall, $team2HasBall)
+    public static function team1Event($t1pow, $t1goal, $ballPosition, $team1HasBall, $team2HasBall)
     {
+        $r1 = rand(1, 100);
+
         if ($r1 < $t1pow) {
 
             self::comments($ballPosition, 'if');
@@ -174,8 +188,10 @@ class Game
      * @param $team2HasBall
      * @return array
      */
-    public static function team2Event($r2, $t2pow, $t2goal, $ballPosition, $team1HasBall, $team2HasBall)
+    public static function team2Event($t2pow, $t2goal, $ballPosition, $team1HasBall, $team2HasBall)
     {
+        $r2 = rand(1, 100);
+
         if ($r2 < $t2pow) {
 
             self::comments($ballPosition, 'if');
@@ -217,67 +233,67 @@ class Game
         $comments = [
             '10' => [
                 'if' => $comment ? $team1->name . " starts the attack<br>" : '',
-                'else' => $comment ? "Recounter, " . $team2->name . " starts new attack<br>" : ''
+                'else' => $comment ? "Recounter, " . $team2->name . " has the ball<br>" : ''
             ],
             '-10' => [
                 'if' => $comment ? $team2->name . " starts the attack<br>" : '',
-                'else' => $comment ? "Recounter, " . $team1->name . " starts new attack<br>" : ''
+                'else' => $comment ? "Recounter, " . $team1->name . " has the ball<br>" : ''
             ],
             '9' => [
                 'if' => $comment ? $team1->name . " passes the ball<br>" : '',
-                'else' => $comment ? "Recounter, " . $team2->name . " starts new attack<br>" : ''
+                'else' => $comment ? "Recounter, " . $team2->name . " has the ball<br>" : ''
             ],
             '-9' => [
                 'if' => $comment ? $team2->name . " passes the ball<br>" : '',
-                'else' => $comment ? "Recounter, " . $team1->name . " starts new attack<br>" : ''
+                'else' => $comment ? "Recounter, " . $team1->name . " has the ball<br>" : ''
             ],
             '8' => [
                 'if' => $comment ? $team1->name . " passes the ball<br>" : '',
-                'else' => $comment ? "Recounter, " . $team2->name . " starts new attack<br>" : ''
+                'else' => $comment ? "Recounter, " . $team2->name . " has the ball<br>" : ''
             ],
             '-8' => [
                 'if' => $comment ? $team2->name . " passes the ball<br>" : '',
-                'else' => $comment ? "Recounter, " . $team1->name . " starts new attack<br>" : ''
+                'else' => $comment ? "Recounter, " . $team1->name . " has the ball<br>" : ''
             ],
             '7' => [
                 'if' => $comment ? $team1->name . " tries a long pass<br>" : '',
-                'else' => $comment ? "Recounter, " . $team2->name . " starts new attack<br>" : ''
+                'else' => $comment ? "Recounter, " . $team2->name . " has the ball<br>" : ''
             ],
             '-7' => [
                 'if' => $comment ? $team2->name . " tries a long pass<br>" : '',
-                'else' => $comment ? "Recounter, " . $team1->name . " starts new attack<br>" : ''
+                'else' => $comment ? "Recounter, " . $team1->name . " has the ball<br>" : ''
             ],
             '6' => [
                 'if' => $comment ? $team1->name . " is dribbling the ball<br>" : '',
-                'else' => $comment ? "Recounter, " . $team2->name . " starts new attack<br>" : ''
+                'else' => $comment ? "Recounter, " . $team2->name . " has the ball<br>" : ''
             ],
             '-6' => [
                 'if' => $comment ? $team2->name . " is dribbling the ball<br>" : '',
-                'else' => $comment ? "Recounter, " . $team1->name . " starts new attack<br>" : ''
+                'else' => $comment ? "Recounter, " . $team1->name . " has the ball<br>" : ''
             ],
             '5' => [
                 'if' => $comment ? $team1->name . " is dribbling the ball<br>" : '',
-                'else' => $comment ? "Recounter, " . $team2->name . " starts new attack<br>" : ''
+                'else' => $comment ? "Recounter, " . $team2->name . " has the ball<br>" : ''
             ],
             '-5' => [
                 'if' => $comment ? $team2->name . " is dribbling the ball<br>" : '',
-                'else' => $comment ? "Recounter, " . $team1->name . " starts new attack<br>" : ''
+                'else' => $comment ? "Recounter, " . $team1->name . " has the ball<br>" : ''
             ],
             '4' => [
                 'if' => $comment ? $team1->name . " tries to change side<br>" : '',
-                'else' => $comment ? "Recounter, " . $team2->name . " starts new attack<br>" : ''
+                'else' => $comment ? "Recounter, " . $team2->name . " has the ball<br>" : ''
             ],
             '-4' => [
                 'if' => $comment ? $team2->name . " tries to change side<br>" : '',
-                'else' => $comment ? "Recounter, " . $team1->name . " starts new attack<br>" : ''
+                'else' => $comment ? "Recounter, " . $team1->name . " has the ball<br>" : ''
             ],
             '3' => [
                 'if' => $comment ? $team1->name . " has made an excellent pass!<br>" : '',
-                'else' => $comment ? "Recounter, " . $team2->name . " starts new attack<br>" : ''
+                'else' => $comment ? "Recounter, " . $team2->name . " has the ball<br>" : ''
             ],
             '-3' => [
                 'if' => $comment ? $team2->name . " has made an excellent pass!<br>" : '',
-                'else' => $comment ? "Recounter, " . $team1->name . " starts new attack<br>" : ''
+                'else' => $comment ? "Recounter, " . $team1->name . " has the ball<br>" : ''
             ],
             '2' => [
                 'if' => $comment ? "It's a chance, " . $team1->name . " is shooting!!<br>" : '',

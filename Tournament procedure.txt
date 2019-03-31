@@ -1,0 +1,98 @@
+// Group A
+1. declare group
+2. simulate 6 games for group
+3. sort teams by points, goal difference
+4. list table
+// Group B
+1. declare group
+2. simulate 6 games for group
+3. sort teams by points, goal difference
+4. list table
+// Group C
+1. declare group
+2. simulate 6 games for group
+3. sort teams by points, goal difference
+4. list table
+// Group D
+1. declare group
+2. simulate 6 games for group
+3. sort teams by points, goal difference
+4. list table
+// Group E
+1. declare group
+2. simulate 6 games for group
+3. sort teams by points, goal difference
+4. list table
+// Group F
+1. declare group
+2. simulate 6 games for group
+3. sort teams by points, goal difference
+4. list table
+// Group G
+1. declare group
+2. simulate 6 games for group
+3. sort teams by points, goal difference
+4. list table
+// Group H
+1. declare group
+2. simulate 6 games for group
+3. sort teams by points, goal difference
+4. list table
+
+END OF GROUP PHASE
+
+Listing teams which have passed the group
+
+reset goals
+
+list matched pairs
+
+1/8 FINALS
+
+Simulate 8 games
+
+reset goals
+
+list matched pairs
+
+1/4 FINALS
+
+Simulate 4 Games
+
+reset goals
+
+list matched pairs
+
+1/2 FINALS
+
+Simulate 2 games
+
+reset goals
+
+list matched pairs
+
+3RD PLACE GAME
+
+Simulate
+
+FINAL GAME
+
+Simulate
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

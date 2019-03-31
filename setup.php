@@ -1,5 +1,7 @@
 <?php
 
+require_once('Team.php');
+
 $teams = [
 	'A1' => ['name' => 'Russia', 			'att' => 79, 'mid' => 77, 'def' => 76, 'ovr' => 77],
 	'A2' => ['name' => 'Saudi Arabia', 		'att' => 63, 'mid' => 64, 'def' => 64, 'ovr' => 64],
@@ -11,10 +13,10 @@ $teams = [
 	'B3' => ['name' => 'Marocco', 			'att' => 66, 'mid' => 67, 'def' => 65, 'ovr' => 66],
 	'B4' => ['name' => 'Iran', 				'att' => 65, 'mid' => 66, 'def' => 66, 'ovr' => 66],
 
-	'C1' =>['name' => 'France', 			'att' => 83, 'mid' => 87, 'def' => 84, 'ovr' => 85],
-	'C2' =>['name' => 'Australia',			'att' => 70, 'mid' => 73, 'def' => 72, 'ovr' => 72],
-	'C3' =>['name' => 'Peru', 				'att' => 76, 'mid' => 74, 'def' => 70, 'ovr' => 73],
-	'C4' =>['name' => 'Denmark', 			'att' => 77, 'mid' => 81, 'def' => 77, 'ovr' => 78],
+	'C1' => ['name' => 'France', 			'att' => 83, 'mid' => 87, 'def' => 84, 'ovr' => 85],
+	'C2' => ['name' => 'Australia',			'att' => 70, 'mid' => 73, 'def' => 72, 'ovr' => 72],
+	'C3' => ['name' => 'Peru', 				'att' => 76, 'mid' => 74, 'def' => 70, 'ovr' => 73],
+	'C4' => ['name' => 'Denmark', 			'att' => 77, 'mid' => 81, 'def' => 77, 'ovr' => 78],
 
 	'D1' => ['name' => 'Argentina',			'att' => 89, 'mid' => 80, 'def' => 79, 'ovr' => 82],
 	'D2' => ['name' => 'Iceland', 			'att' => 74, 'mid' => 74, 'def' => 71, 'ovr' => 72],
@@ -40,4 +42,60 @@ $teams = [
 	'H2' => ['name' => 'Senegal', 			'att' => 79, 'mid' => 78, 'def' => 78, 'ovr' => 78],
 	'H3' => ['name' => 'Colombia', 			'att' => 81, 'mid' => 80, 'def' => 77, 'ovr' => 79],
 	'H4' => ['name' => 'Japan', 			'att' => 78, 'mid' => 78, 'def' => 75, 'ovr' => 77],
+];
+
+$groupA = [
+    '1' => new Team($teams['A1']),
+    '2' => new Team($teams['A2']),
+    '3' => new Team($teams['A3']),
+    '4' => new Team($teams['A4']),
+];
+
+$groupB = [
+    '1' => new Team($teams['B1']),
+    '2' => new Team($teams['B2']),
+    '3' => new Team($teams['B3']),
+    '4' => new Team($teams['B4']),
+];
+
+$groupC = [
+    '1' => new Team($teams['C1']),
+    '2' => new Team($teams['C2']),
+    '3' => new Team($teams['C3']),
+    '4' => new Team($teams['C4']),
+];
+
+$groupD = [
+    '1' => new Team($teams['D1']),
+    '2' => new Team($teams['D2']),
+    '3' => new Team($teams['D3']),
+    '4' => new Team($teams['D4']),
+];
+
+$groupE = [
+    '1' => new Team($teams['E1']),
+    '2' => new Team($teams['E2']),
+    '3' => new Team($teams['E3']),
+    '4' => new Team($teams['E4']),
+];
+
+$groupF = [
+    '1' => new Team($teams['F1']),
+    '2' => new Team($teams['F2']),
+    '3' => new Team($teams['F3']),
+    '4' => new Team($teams['F4']),
+];
+
+$groupG = [
+    '1' => new Team($teams['G1']),
+    '2' => new Team($teams['G2']),
+    '3' => new Team($teams['G3']),
+    '4' => new Team($teams['G4']),
+];
+
+$groupH = [
+    '1' => new Team($teams['H1']),
+    '2' => new Team($teams['H2']),
+    '3' => new Team($teams['H3']),
+    '4' => new Team($teams['H4']),
 ];

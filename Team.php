@@ -13,6 +13,7 @@ class Team
 	public $L;
 	public $GF;
 	public $GA;
+	public $GD;
 	public $PK;
 
 	function __construct(array $strength)
