@@ -11,14 +11,14 @@ class Game
     public static function simulate($team1, $team2)
     {
         if (!$team1 || !$team2) {
-            die('No teams selected');
+            die('Error: No teams selected');
         }
 
         global $PK, $comment;
 
         // declaring variables
-        $t1pow = $team1->overall - 10;              // 17 is a coefficient that gives (for football) normal result
-        $t2pow = $team2->overall - 10;
+        $t1pow = $team1->overall - 14;              // 17 is a coefficient that gives (for football) normal result
+        $t2pow = $team2->overall - 14;
         $t1goal = 0;
         $t2goal = 0;
         $team1HasBall = null;
@@ -97,12 +97,15 @@ class Game
             $team2->D += 1;
         }
 
-        echo '<tr><td>' .$team1->name. '</td><td>' .$t1goal. '</td><td>:</td><td>' .$t2goal. '</td><td>&nbsp;&nbsp;&nbsp;&nbsp;' .$team2->name. '</td></tr>';
-
         if ($PK) {
             // if game ends with draw, winner is decided with penalty shoot-out
-            self::penaltyKicksShootout($t1goal, $t2goal);
+            self::penaltyKicksShootout($t1goal, $t2goal, $team1, $team2);
         }
+
+        $team1PK = $team1->PK !== NULL ? "($team1->PK)" : '';
+        $team2PK = $team2->PK !== NULL ? "($team2->PK)" : '';
+
+        echo '<tr><td>' .$team1->name. '</td><td class="text-right">' .$t1goal . $team1PK. '</td><td class="text-center">:</td><td class="text-left">' .$team2PK . $t2goal. '</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' .$team2->name. '</td></tr>';
     } // end of function
 
     /**
@@ -322,10 +325,12 @@ class Game
      *
      * @param $t1goal
      * @param $t2goal
+     * @param $team1
+     * @param $team2
      */
-    public static function penaltyKicksShootout($t1goal, $t2goal)
+    public static function penaltyKicksShootout($t1goal, $t2goal, $team1, $team2)
     {
-        global $team1, $team2, $comment;
+        global $comment;
 
         if ($t1goal == $t2goal) {
             $comment == false ? '' : print("Penalty shoot-out<br>");
@@ -338,11 +343,9 @@ class Game
             $team1->PK = $pk1;
             $team2->PK = $pk2;
 
-            $comment == false ? '' : print("Final score after penalties: " . $team1->name . " " . $t1goal . "(" . $team1->PK . ")" . ":" . "(" . $team2->PK . ")" . $t2goal . " " . $team2->name . "<br>");
-
             // if the score after first series of 5 shots is draw then we have Sudden death
             if ($pk1 == $pk2) {
-                self::suddenDeath($t1goal, $t2goal, $pk1, $pk2);
+                self::suddenDeath($t1goal, $t2goal, $pk1, $pk2, $team1, $team2);
             } // end of Sudden death
         } // end of penalty shoot-out
     }
@@ -361,7 +364,7 @@ class Game
 
         for ($i = 1; $i <= 5; $i++) {
             $pkr = rand(1, 10);
-            if ($pkr <= 5) {
+            if ($pkr >= 5) {
                 $comment ? print($i . ": " . $team->name . " has scored!<br>") : '';
                 $pk++;
             } else {
@@ -380,10 +383,12 @@ class Game
      * @param $t2goal
      * @param $pk1
      * @param $pk2
+     * @param $team1
+     * @param $team2
      */
-    public static function suddenDeath($t1goal, $t2goal, $pk1, $pk2)
+    public static function suddenDeath($t1goal, $t2goal, $pk1, $pk2, $team1, $team2)
     {
-        global $team1, $team2, $comment;
+        global $comment;
 
         $comment ? print("It's draw! The winner will be decided with - Sudden death<br>") : '';
         while ($pk1 == $pk2) {
@@ -407,8 +412,5 @@ class Game
 
         $team1->PK = $pk1;
         $team2->PK = $pk2;
-
-        // printout final score after Sudden death
-        $comment == false ? '' : print("Final score after Sudden death: " . $team1->name . " " . $t1goal . "(" . $team1->PK . ")" . ":" . "(" . $team2->PK . ")" . $t2goal . " " . $team2->name . "<br>");
     }
 }

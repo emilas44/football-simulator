@@ -2,8 +2,8 @@
     <?php
     Game::simulate($groupC['1'], $groupC['2']);
     Game::simulate($groupC['3'], $groupC['4']);
-    Game::simulate($groupC['1'], $groupC['3']);
     Game::simulate($groupC['4'], $groupC['2']);
+    Game::simulate($groupC['1'], $groupC['3']);
     Game::simulate($groupC['4'], $groupC['1']);
     Game::simulate($groupC['2'], $groupC['3']);
     ?>

@@ -23,3 +23,10 @@
     </tr>
     <?php Presenter::getSortedGroupTable($groupH); ?>
 </table>
+
+<br>
+<hr>
+
+<div class="next-round-wrapper">
+    <button id="round-16" class="next-round">Next to the round of 16</button>
+</div>

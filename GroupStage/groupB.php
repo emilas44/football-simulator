@@ -1,7 +1,7 @@
 <table width="300">
     <?php
-    Game::simulate($groupB['1'], $groupB['2']);
     Game::simulate($groupB['3'], $groupB['4']);
+    Game::simulate($groupB['1'], $groupB['2']);
     Game::simulate($groupB['1'], $groupB['3']);
     Game::simulate($groupB['4'], $groupB['2']);
     Game::simulate($groupB['4'], $groupB['1']);

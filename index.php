@@ -1,24 +1,41 @@
 <?php
 
-require_once('setup.php');
-require_once('Game.php');
-require_once('Presenter.php');
+require('setup.php');
+require('Game.php');
+require('Presenter.php');
 
+Presenter::styleLoad();
+
+global $comment, $PK;
+
+/**
+ * GROUP STAGE
+ */
 $comment = false;
 $PK = false;
 $groupLetters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
-?>
-
-<link rel="stylesheet" href="style.css">
-
-<?php
 
 foreach ($groupLetters as $groupLetter) {
-    include("group{$groupLetter}.php");
-    echo '<br><hr>';
+    echo "<h3>Group $groupLetter</h3>";
+    include("GroupStage/group{$groupLetter}.php");
 }
 
-?>
-<div class="next-step">
-    <a href="/?round16">Next to the round of 16</a>
-</div>
+$comment = false;
+$PK = true;
+
+/**
+ * ROUND OF 16
+ */
+include "RoundOf16/matches.php";
+/**
+ * QUARTER FINALS
+ */
+include "QuarterFinals/matches.php";
+/**
+ * SEMI FINALS
+ */
+include "SemiFinals/matches.php";
+/**
+ * FINAL
+ */
+include "Final/matches.php";
