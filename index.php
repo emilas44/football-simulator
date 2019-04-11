@@ -16,7 +16,6 @@ $PK = false;
 $groupLetters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
 
 foreach ($groupLetters as $groupLetter) {
-    echo "<h3>Group $groupLetter</h3>";
     include("GroupStage/group{$groupLetter}.php");
 }
 
@@ -26,16 +25,18 @@ $PK = true;
 /**
  * ROUND OF 16
  */
-include "RoundOf16/matches.php";
+include 'RoundOf16/matches.php';
 /**
  * QUARTER FINALS
  */
-include "QuarterFinals/matches.php";
+include 'QuarterFinals/matches.php';
 /**
  * SEMI FINALS
  */
-include "SemiFinals/matches.php";
+include 'SemiFinals/matches.php';
 /**
  * FINAL
  */
-include "Final/matches.php";
+include 'Final/matches.php';
+
+include 'javascript.html';

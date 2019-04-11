@@ -1,0 +1,22 @@
+<div class="next-round-wrapper">
+    <button id="round-16" class="next-round" onclick="hideGroupPhase()">Go to Knockout phase</button>
+</div>
+
+<script>
+    let knockoutPhase = document.querySelectorAll(".knockout-phase");
+    knockoutPhase.forEach(function(item){
+        item.hidden = true;
+    });
+
+    function hideGroupPhase() {
+        document.getElementById("round-16").style.display = "none";
+        let groupPhase = document.querySelectorAll(".group-phase");
+        groupPhase.forEach(function(item){
+            item.hidden = true;
+        });
+
+        knockoutPhase.forEach(function(item){
+            item.hidden = false;
+        });
+    }
+</script>

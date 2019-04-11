@@ -9,7 +9,10 @@ class Presenter
     public static $thirdPlace = [];
     public static $champion = [];
 
-    public static function getSortedGroupTable(array $teams)
+    /**
+     * @param array $teams
+     */
+    public static function getSortedGroupTable(array $teams): void
     {
         $teams = self::sortTeamsGroupPhase($teams);
 
@@ -32,44 +35,58 @@ class Presenter
         }
     }
 
-    public static function styleLoad()
+    public static function styleLoad(): void
     {
         echo '<link rel="stylesheet" href="style.css">';
     }
 
-    public static function getWinnerRound16(array $teams)
+    /**
+     * @param array $teams
+     */
+    public static function getWinnerRound16(array $teams): void
     {
         $teams = self::sortTeamsKoPhase($teams);
 
-        $team = self::teamReset($teams[0]);
-
-        self::$passedRoundOf16[] = $team;
+        self::$passedRoundOf16[] = $teams[0];
     }
 
-    public static function getWinnerQuarterFinals(array $teams)
+    /**
+     * @param array $teams
+     */
+    public static function getWinnerQuarterFinals(array $teams): void
     {
         $teams = self::sortTeamsKoPhase($teams);
 
-        $team = self::teamReset($teams[0]);
-
-        self::$passedQuarterFinals[] = $team;
+        self::$passedQuarterFinals[] = $teams[0];
     }
 
-    public static function getWinnerSemiFinals(array $teams)
+    /**
+     * @param array $teams
+     */
+    public static function getWinnerSemiFinals(array $teams): void
     {
         $teams = self::sortTeamsKoPhase($teams);
 
-        $team1 = self::teamReset($teams[0]);
-        $team2 = self::teamReset($teams[1]);
-
-        self::$passedSemiFinals[] = $team1;
-        self::$thirdPlace[] = $team2;
+        self::$passedSemiFinals[] = $teams[0];
+        self::$thirdPlace[] = $teams[1];
     }
 
-    private static function sortTeamsGroupPhase(array $teams)
+    /**
+     * @param array $teams
+     * @return array
+     */
+    private static function sortTeamsGroupPhase(array $teams): array
     {
         usort($teams, function ($a, $b) {
-            if ($a->Pts > $b->Pts) {
+            if ($a->Pts > $b->Pts){
+                return -1;
+            }
+
+            if(($a->Pts === $b->Pts) && ($a->GD > $b->GD)){
+                return -1;
+            }
+
+            if(($a->Pts === $b->Pts) && ($a->GD === $b->GD) && ($a->GF > $b->GF)){
                 return -1;
             }
 
@@ -79,10 +96,14 @@ class Presenter
         return $teams;
     }
 
-    private static function sortTeamsKoPhase(array $teams)
+    /**
+     * @param array $teams
+     * @return array
+     */
+    private static function sortTeamsKoPhase(array $teams): array
     {
         usort($teams, function ($a, $b) {
-            if (($a->GF + $a->PK) > ($b->GF + $b->PK)) {
+            if (($a->GF > $b->GF) || ($a->PK > $b->PK)){
                 return -1;
             }
 
@@ -92,17 +113,23 @@ class Presenter
         return $teams;
     }
 
-    private static function teamReset(Team $team)
+    /**
+     * @param array $teams
+     * @return array
+     */
+    public static function teamsReset(array $teams): array
     {
-        $team->Pts = 0;
-        $team->W = 0;
-        $team->D = 0;
-        $team->L = 0;
-        $team->GF = 0;
-        $team->GA = 0;
-        $team->GD = 0;
-        $team->PK = null;
+        foreach ($teams as $team) {
+            $team->Pts = 0;
+            $team->W = 0;
+            $team->D = 0;
+            $team->L = 0;
+            $team->GF = 0;
+            $team->GA = 0;
+            $team->GD = 0;
+            $team->PK = null;
+        }
 
-        return $team;
+        return $teams;
     }
 }
